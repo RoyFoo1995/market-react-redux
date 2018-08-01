@@ -43,3 +43,7 @@
 .cart-sum {
   width: 30%;
 }
+
+.tab{
+  border-bottom: 0;
+}

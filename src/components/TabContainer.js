@@ -1,17 +1,16 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import {
-TabContent, TabPane
+  TabContent, TabPane
 } from 'reactstrap';
 import ShopItems from './ShopItems';
 import ShopCart from './ShopCart';
-const TabContainer = ({ activeTab }) => {
+const TabContainer = () => {
   return (
-    <TabContent activeTab={activeTab}>
-      <TabPane tabId="1" className="TabPane">
-        <ShopItems />
-      </TabPane>
-      <TabPane tabId="2" className="TabPane">
-        <ShopCart />
+    <TabContent>
+      <TabPane className="TabPane">
+        <Route exact path='/' component={ShopItems} />
+        <Route exact path='/cart' component={ShopCart} />
       </TabPane>
     </TabContent>);
 }

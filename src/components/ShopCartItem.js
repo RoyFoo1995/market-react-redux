@@ -6,7 +6,6 @@ class ShopCartItem extends Component {
   state = {
     tempCount: this.props.count
   }
-
   modifyItemCount = (count) => {
     this.setState({ tempCount: count });
   }
@@ -27,8 +26,14 @@ class ShopCartItem extends Component {
               this.modifyItemCount(parseInt(this.state.tempCount) - 1);
             }}><span className="fa fa-minus"></span></InputGroupText>
           </InputGroupAddon>
-          <Input placeholder="count" type="number" min="0" value={count} onChange={(event) => {
-            handleModifyCount({ barcode, count: event.target.value })
+          <Input placeholder="count" type="number" min="0" value={this.state.tempCount} onKeyPress={(event) => {
+            if (event.charCode === ENTER_KEY_CODE) {
+              handleModifyCount({ barcode, count: this.state.tempCount })
+            }
+          }} onBlur={() => {
+            handleModifyCount({ barcode, count: this.state.tempCount })
+          }} onChange={(event) => {
+            this.modifyItemCount(event.target.value);
           }} />
           <InputGroupAddon addonType="append">
             <InputGroupText onClick={() => {

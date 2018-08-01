@@ -7,7 +7,8 @@ import ShopCart from './components/ShopCart';
 const AppRouter = (props) => {
   return (
     <Router>
-      <Route path='/:filter?' component={App}/>
+      {/* <Route path='/:filter?' component={App}/> */}
+      <App/>
     </Router>
   );
  };
