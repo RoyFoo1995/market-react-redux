@@ -1,60 +1,66 @@
-import { addItemAction, regularUpdateItemAction, modifyItemAction } from './actionTypes';
+import {addItemAction, regularUpdateItemAction, modifyItemAction} from './actionTypes';
+
 const initShopCart = [
-  {
-    barcode: 'ITEM000000',
-    name: '可口可乐',
-    price: 3.00,
-    count: 1
-  },
-  {
-    barcode: 'ITEM000001',
-    name: '雪碧',
-    unit: '瓶',
-    price: 3.00,
-    count: 2
-  }
+    {
+        barcode: 'ITEM000000',
+        name: '可口可乐',
+        price: 3.00,
+        count: 1
+    },
+    {
+        barcode: 'ITEM000001',
+        name: '雪碧',
+        unit: '瓶',
+        price: 3.00,
+        count: 2
+    }
 ];
 
 const shopCart = (state = initShopCart, action) => {
-  let { type, data } = action;
-  switch (type) {
-    case addItemAction:
-      return addItem(state, data);
-    case regularUpdateItemAction:
-      return regularUpdateItem(state, data);
-    case modifyItemAction:
-      return modifyItem(state, data);
-    default:
-      return state;
-  }
+    let {type, data} = action;
+    switch (type) {
+        case addItemAction:
+            return addItem(state, data);
+        case regularUpdateItemAction:
+            return regularUpdateItem(state, data);
+        case modifyItemAction:
+            return modifyItem(state, data);
+        case "INIT_SHOP_CART":
+            var shopCart = [];
+            action.data.orderItems.forEach(orderItem => shopCart.push(Object.assign(orderItem.product,{count:orderItem.count})));
+            console.log(shopCart);
+            return shopCart;
+        default:
+            return state;
+    }
 }
 
 const addItem = (state, newItem) => {
-  let newState = state.map(item => Object.assign({}, {...item}));
-  let entry = newState.find(item => item.barcode === newItem.barcode);
-  if (entry) {
-    entry.count += parseInt( newItem.count);
-  } else {
-    newState.push(newItem);
-  }
-  return newState;
+    let newState = state.map(item => Object.assign({}, {...item}));
+    let entry = newState.find(item => item.barcode === newItem.barcode);
+    if (entry) {
+        entry.count += parseInt(newItem.count);
+    } else {
+        newState.push(newItem);
+    }
+    return newState;
 }
 
 const regularUpdateItem = (state, newItem) => {
-  let newState = state.map(item => Object.assign({}, item));
-  let entry = newState.find(item => item.barcode === newItem.barcode);
-  if (entry) {
-    entry.count += parseInt(newItem.count)  ;
-  }
-  return newState.filter(item => item.count > 0);
+    let newState = state.map(item => Object.assign({}, item));
+    let entry = newState.find(item => item.barcode === newItem.barcode);
+    if (entry) {
+        entry.count += parseInt(newItem.count);
+    }
+    return newState.filter(item => item.count > 0);
 }
 
 const modifyItem = (state, newItem) => {
-  let newState = state.map(item => Object.assign({}, item));
-  let entry = newState.find(item => item.barcode === newItem.barcode);
-  if (entry) {
-    entry.count = parseInt( newItem.count);
-  }
-  return newState.filter(item => item.count > 0);
+    let newState = state.map(item => Object.assign({}, item));
+    let entry = newState.find(item => item.barcode === newItem.barcode);
+    if (entry) {
+        entry.count = parseInt(newItem.count);
+    }
+    return newState.filter(item => item.count > 0);
 }
 export default shopCart;

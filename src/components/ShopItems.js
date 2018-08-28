@@ -1,23 +1,49 @@
 import React from 'react';
-import { Row} from 'reactstrap';
-import { connect } from 'react-redux';
+import {Row} from "antd";
+
+import {connect} from 'react-redux';
 import ShopItem from './ShopItem';
-import {addItemAction,getAction} from '../reducers/actionTypes';
-const ShopCart = ({ shopItems,handleAddItem}) => {
-  console.log('shopcart');
-  return (
-    <Row>
-    {shopItems.map(item=><ShopItem key={item.barcode}   {...item} handleAddItem={handleAddItem}/>)}
-    </Row>
-  );
+import {loadProducts} from '../actions/product'
+import {changeCartNumber} from '../actions/shopCart'
+
+
+class ShopCart extends React.Component {
+    componentDidMount() {
+        const {loadProducts} = this.props;
+        loadProducts();
+    }
+
+    changeTest = (event) => {
+        console.log(event.target.value);
+    };
+
+    render() {
+        return (
+            <Row gutter={16}>
+                {
+                    this.props.shopItems.map(item => <ShopItem key={item.barcode}   {...item}
+                                                               handleAddItem={this.props.handleAddItem}/>)}
+                <input onChange={::this.changeTest}/>
+            </Row>
+        )
+    }
+
+
 }
 
-const mapStateToProps = ({ shopItems }) => ({
-  shopItems
+const mapStateToProps = ({shopItems}) => ({
+    shopItems
 });
 
 const mapDispatchToProps = dispatch => ({
-handleAddItem:(item)=>dispatch(getAction(addItemAction,item))
+    handleAddItem: (add, id) => {
+        changeCartNumber(add, id);
+        alert("商品添加成功")
+    },
+
+    loadProducts: () => {
+        dispatch(loadProducts())
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShopCart);

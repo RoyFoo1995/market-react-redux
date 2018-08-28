@@ -1,20 +1,21 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, Button, Col } from 'reactstrap';
+// import {Card, CardImg, CardText, CardBody, CardTitle, Button, Col} from 'reactstrap';
+import {Col, Icon, Card, Avatar} from "antd";
 
-const ShopItem = ({ barcode, name, unit, price, handleAddItem }) => {
-  return (
-    <Col sm="4">
-      <Card>
-        <CardImg top width="100%" src={`./resources/images/${barcode}.jpg`} alt="Card image cap" />
-        <CardBody>
-          <CardTitle >{name}</CardTitle>
-          <CardText><strong>单价</strong><span className="fa fa-dollar-sign"></span>：{price} 元/{unit}</CardText>
-          <Button outline className="button" color="secondary" size="sm" onClick={() => { console.log(`${name}已添加到购物车`)
-            handleAddItem({ barcode, name, price, count: 1 }) }}><span className="fa fa-cart-plus"></span></Button>
-        </CardBody>
-      </Card>
-    </Col>
-  );
-}
+
+const ShopItem = ({id, barcode, name, unit, price, handleAddItem}) => {
+    return (
+        <Col span={8}>
+            <Card
+                cover={<img height={250} width={350} alt="Card image cap" src={`./resources/images/${barcode}.jpg`}/>}
+                actions={[<Icon type="shopping-cart" onClick={() =>
+                    handleAddItem(true, id)}/>]}>
+                <Card.Meta
+                    title={name}
+                    description={<strong>单价:{price} 元/{unit}</strong>}/>
+            </Card>
+        </Col>
+    );
+};
 
 export default ShopItem;

@@ -13,5 +13,5 @@ const TabContainer = () => {
         <Route exact path='/cart' component={ShopCart} />
       </TabPane>
     </TabContent>);
-}
+};
 export default TabContainer;
